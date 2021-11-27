@@ -17,33 +17,73 @@ sns.heatmap(flights, annot=True, fmt="d", linewidths=.5, ax=ax)
 print(flights_long)
 
 
+
+
 #%%
 #Bar plot; could be useful for amount of HS-types
+import pandas as pd
+import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-sns.set_theme(style="whitegrid")
+import matplotlib.patches as mp
+#sns.set_theme(style="whitegrid")
 
 # Initialize the matplotlib figure
-f, ax = plt.subplots(figsize=(6, 15))
+#f, ax = plt.subplots(figsize=(6, 15))
 
-# Load the example car crash dataset
-crashes = sns.load_dataset("car_crashes").sort_values("total", ascending=False)
-print(crashes)
-# Plot the total crashes
-sns.set_color_codes("pastel")
-sns.barplot(x="total", y="abbrev", data=crashes,
-            label="Total", color="b")
+# Load the mock tweet dataset
+#df = pd.read_csv("labeled_data2.csv")
+#print(df)
 
-# Plot the crashes where alcohol was involved
-sns.set_color_codes("muted")
-sns.barplot(x="alcohol", y="abbrev", data=crashes,
-            label="Alcohol-involved", color="b")
+#create simple barplots
+#sns.barplot(x = "offensive_language", y = "number", data = df)
+#sns.barplot(x = "class", y = "number", data = df)
 
-# Add a legend and informative axis label
-ax.legend(ncol=2, loc="lower right", frameon=True)
-ax.set(xlim=(0, 24), ylabel="",
-       xlabel="Automobile collisions per billion miles")
-sns.despine(left=True, bottom=True)
+
+#more complex comparative barplot
+sns.set_theme(style="whitegrid")
+
+df = pd.read_csv("labeled_data2.csv")
+
+# Draw a nested barplot by type and confidence
+g = sns.catplot(
+    data=df, kind="bar",
+    x="class", y="number", hue="offensive_language",
+    ci="sd", palette="dark", alpha=.6, height=6
+)
+g.despine(left=True)
+g.set_axis_labels("", "Number of Tweets")
+g.legend.set_title("")
+
+
+
+#
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+# sns.set_theme(style="whitegrid")
+
+# # Initialize the matplotlib figure
+# f, ax = plt.subplots(figsize=(6, 15))
+
+# # Load the example car crash dataset
+# crashes = sns.load_dataset("car_crashes").sort_values("total", ascending=False)
+# print(crashes)
+# # Plot the total crashes
+# sns.set_color_codes("pastel")
+# sns.barplot(x="total", y="abbrev", data=crashes,
+#             label="Total", color="b")
+
+# # Plot the crashes where alcohol was involved
+# sns.set_color_codes("muted")
+# sns.barplot(x="alcohol", y="abbrev", data=crashes,
+#             label="Alcohol-involved", color="b")
+
+# # Add a legend and informative axis label
+# ax.legend(ncol=2, loc="lower right", frameon=True)
+# ax.set(xlim=(0, 24), ylabel="",
+#        xlabel="Automobile collisions per billion miles")
+# sns.despine(left=True, bottom=True)
+
 
 
 
@@ -83,4 +123,7 @@ ax.set_xticks(ax.get_xticks()[::2])
 g.set_titles("")
 g.set_axis_labels("", "Passengers")
 g.tight_layout()
+
+
+
 # %%
