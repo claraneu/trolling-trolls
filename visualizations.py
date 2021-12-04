@@ -16,6 +16,28 @@ sns.heatmap(flights, annot=True, fmt="d", linewidths=.5, ax=ax)
 
 print(flights_long)
 
+#%%
+#Grouped Barplots
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.patches as mp
+sns.set_theme(style="whitegrid")
+
+df = pd.read_csv("labeled_data2.csv")
+print(df.head())
+
+# Draw a nested barplot by species and sex
+# g = sns.catplot(
+#     data=df, kind="bar",
+#     x=df["class"], y=df["class"].value_counts(), hue=df["count"],
+#     ci="sd", palette="dark", alpha=.6, height=6
+# )
+# g.despine(left=True)
+# g.set_axis_labels("", "Tweet Count")
+# g.legend.set_title("")
+
 
 
 
@@ -26,63 +48,55 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mp
-#sns.set_theme(style="whitegrid")
+sns.set_theme(style="whitegrid")
 
 # Initialize the matplotlib figure
 #f, ax = plt.subplots(figsize=(6, 15))
 
 # Load the mock tweet dataset
-#df = pd.read_csv("labeled_data2.csv")
-#print(df)
-
-#create simple barplots
-#sns.barplot(x = "offensive_language", y = "number", data = df)
-#sns.barplot(x = "class", y = "number", data = df)
-
-
-#more complex comparative barplot
-sns.set_theme(style="whitegrid")
-
 df = pd.read_csv("labeled_data2.csv")
 
-# Draw a nested barplot by type and confidence
-g = sns.catplot(
-    data=df, kind="bar",
-    x="class", y="number", hue="offensive_language",
-    ci="sd", palette="dark", alpha=.6, height=6
-)
-g.despine(left=True)
-g.set_axis_labels("", "Number of Tweets")
-g.legend.set_title("")
+#create simple barplots doesnt work because it doesn't count 0s and weirdly 2s
+#sns.barplot(x = df["class"], y = df.value_counts("class"))
 
+#sns.plot(kind=bar, x = df["class"], y = df.value_counts("class"))
 
+#This was a test to see what value value_counts counts, and they are correct. Error must be somewhere else
+#test = df.value_counts("class")
+#test_frame = pd.DataFrame(test)
+#print(test)
 
-#
-# import seaborn as sns
-# import matplotlib.pyplot as plt
-# sns.set_theme(style="whitegrid")
+#Three bar plots next to each other; this one's correct
+#sns.countplot(x="class", data = df)
 
-# # Initialize the matplotlib figure
-# f, ax = plt.subplots(figsize=(6, 15))
+#counts of votes per total count
+#sns.barplot(x = df["offensive_language"], y = df.value_counts("count"))
+sns.barplot(x="count", y=df.value_counts("count"), data=df)
 
-# # Load the example car crash dataset
-# crashes = sns.load_dataset("car_crashes").sort_values("total", ascending=False)
-# print(crashes)
-# # Plot the total crashes
-# sns.set_color_codes("pastel")
-# sns.barplot(x="total", y="abbrev", data=crashes,
-#             label="Total", color="b")
+###########create separate dataframe that contains the counts for class occurrences in df##########
+# count class occurrences in csv file and store in dictionary
+# class_count = {}
+# for n in df["class"]:
+#     class_count[n] = class_count.get(n, 0) + 1
+# #print(class_count)
 
-# # Plot the crashes where alcohol was involved
-# sns.set_color_codes("muted")
-# sns.barplot(x="alcohol", y="abbrev", data=crashes,
-#             label="Alcohol-involved", color="b")
+# #I don't know, but it works
+# classes = class_count.items()
+# class_list = list(classes)
 
-# # Add a legend and informative axis label
-# ax.legend(ncol=2, loc="lower right", frameon=True)
-# ax.set(xlim=(0, 24), ylabel="",
-#        xlabel="Automobile collisions per billion miles")
-# sns.despine(left=True, bottom=True)
+# #create dataframe from list
+# class_frame = pd.DataFrame(class_list)
+# class_frame.columns=["class", "class_count"]
+
+# #sort dataframe by classes from 0 to 2
+# class_frame.sort_values(by=["class"])
+
+# #rename indexes from 0 to 1 because they got shuffled by sort (doesn't work)
+# class_frame.index=["0", "1", "2"]
+# print(class_frame)
+
+# sns.barplot(x="class", y="class_count", data=class_frame)
+##############################
 
 
 
@@ -91,15 +105,20 @@ g.legend.set_title("")
 
 #%%
 #Small multiple time series; compares time, time, amount
+import pandas as pd
+import numpy as np
 import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.patches as mp
 
 sns.set_theme(style="dark")
-flights = sns.load_dataset("flights")
+
+df = pd.read_csv("labeled_data2.csv")
 
 # Plot each year's time series in its own facet
 g = sns.relplot(
-    data=flights,
-    x="month", y="passengers", col="year", hue="year",
+    data=df,
+    x="class", y="count", col="offensive_language", hue="offensive_language",
     kind="line", palette="crest", linewidth=4, zorder=5,
     col_wrap=3, height=2, aspect=1.5, legend=False,
 )
@@ -112,7 +131,7 @@ for year, ax in g.axes_dict.items():
 
     # Plot every year's time series in the background
     sns.lineplot(
-        data=flights, x="month", y="passengers", units="year",
+        data=flights, x="class", y="count", units="offensive_language",
         estimator=None, color=".7", linewidth=1, ax=ax,
     )
 
@@ -121,7 +140,7 @@ ax.set_xticks(ax.get_xticks()[::2])
 
 # Tweak the supporting aspects of the plot
 g.set_titles("")
-g.set_axis_labels("", "Passengers")
+g.set_axis_labels("", "Class")
 g.tight_layout()
 
 
