@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mp
 import seaborn as sns
+from seaborn.axisgrid import jointplot
+from seaborn.distributions import kdeplot
 
 df = pd.read_csv("labeled_data2.csv")
 #df.head()
@@ -30,20 +32,15 @@ sns.set_style("darkgrid")
 # sns.histplot(df["neither"], ax=axes[2])
 
 
-#Jointplots
-#sns.violinplot(x="class", y="offensive_language", data=df)
-
-
 #multiples density
-
-fig, axes = plt.subplots(2, 2, sharey=True, figsize=(20,20))
-fig.suptitle("Data Density per Class")
-sns.jointplot(ax=axes[0,0], x='class', y='hate_speech', data=df, kind="kde")
-axes[0,0].set_title("Hate Speech Density")
-sns.jointplot(ax=axes[0,1], x='class', y='offensive_language', data=df, kind="kde")
-axes[0,1].set_title("Offensive Language Density")
-sns.jointplot(ax=axes[1,0], x='class',y='neither', data=df, kind="kde")
-axes[1,0].set_title("Neither Density")
+# fig, axes = plt.subplots(2, 2, sharey=True, figsize=(20,20))
+# fig.suptitle("Data Density per Class")
+# sns.jointplot(ax=axes[0,0], x='class', y='hate_speech', data=df, kind="kde")
+# axes[0,0].set_title("Hate Speech Density")
+# sns.jointplot(ax=axes[0,1], x='class', y='offensive_language', data=df, kind="kde")
+# axes[0,1].set_title("Offensive Language Density")
+# sns.jointplot(ax=axes[1,0], x='class',y='neither', data=df, kind="kde")
+# axes[1,0].set_title("Neither Density")
 
 
 #KDE plots
@@ -74,7 +71,6 @@ plt.figure(figsize=(8,8))
 
 
 sns.jointplot(x="class", y="count", data=df, kind="kde")
-# %%
 
 
 
@@ -102,22 +98,36 @@ sns.countplot(x='neither', data=df, ax=axes[2])
 axes[2].set_title("Neither Votes")
 
 
+# %%
+################## KDE Jointplot from YT Tutorial #######################
+sns.set(style="dark")
+
+df = df = pd.read_csv("labeled_data2.csv")
+dfn = df[["hate_speech", "offensive_language", "neither", "class"]].copy()
+
+
+
+# mean = [2,2]
+# cov = [(1, .5), (.5,1)]
+
+#x1, x2 = dfn.multivariate_normal(mean, cov, 500).T
+
+x1 = dfn["class"]
+x2 = dfn["neither"]
+
+explot = sns.jointplot(x1, x2, kind="kde", size=7, space=0, color="green")
+explot.savefig("neither.png")
+
 
 # %%
-################### BOXPLOTS #########################
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.patches as mp
-import seaborn as sns
 
 df = pd.read_csv("labeled_data2.csv")
+dfn = df[["hate_speech", "offensive_language", "neither", "class"]].copy()
+x1 = dfn["class"]
+x2 = dfn["neither"]
 
-sns.boxplot(x="neither", y="count", data=df, hue="class")
-
-
-
-
+sns.countplot(x="class", data=df)
+sns.jointplot(x1, x2, kind="kde", size=7, space=0, color="green").savefig("neither.png")
 
 
 # %%

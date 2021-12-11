@@ -1,9 +1,15 @@
-#Annotated Heatmaps; could be useful for amount per day per month or such
 #%%
-import matplotlib.pyplot as plt
+#Annotated Heatmaps; could be useful for amount per day per month or such
+import pandas as pd
+import numpy as np
 import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.patches as mp
 sns.set_theme()
 
+df = pd.read_csv("labeled_data2.csv")
+
+#%%
 # Load the example flights dataset and convert to long-form
 flights_long = sns.load_dataset("flights")
 print(flights_long)
@@ -142,6 +148,37 @@ ax.set_xticks(ax.get_xticks()[::2])
 g.set_titles("")
 g.set_axis_labels("", "Class")
 g.tight_layout()
+
+
+
+# %%
+############### HEATPLOT ################
+
+# Generate a large random dataset
+# rs = np.random.RandomState(33)
+# d = pd.DataFrame(data=rs.normal(size=(100, 26)),
+#                  columns=list(ascii_letters[26:]))
+
+dfn = df[["hate_speech", "offensive_language", "neither", "class"]].copy()
+print(dfn.head())
+
+# Compute the correlation matrix
+corr = dfn.corr()
+
+# Generate a mask for the upper triangle
+mask = np.triu(np.ones_like(corr, dtype=bool))
+
+# Set up the matplotlib figure
+f, ax = plt.subplots(figsize=(11, 9))
+
+# Generate a custom diverging colormap
+cmap = sns.diverging_palette(230, 20, as_cmap=True)
+
+# Draw the heatmap with the mask and correct aspect ratio
+sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0,
+            square=True, linewidths=.5, cbar_kws={"shrink": .5})
+
+
 
 
 
