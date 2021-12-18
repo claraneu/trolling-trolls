@@ -12,11 +12,6 @@ access_token = os.environ.get('ACCES_TOKEN')
 access_token_secret = os.environ.get('ACCESS_TOKEN_SECRET')
 
 
-# consumer_key = "51ftZMsHH5WXP8n4gUVRSENbo"
-# consumer_secret = "8jmu1jHP22KpD0DmbYKS4TLVBBOkzQnaLxDoBEjBTXuxfCs6ZU"
-# access_token = "41085198-9OeM2ijRlMykiF4koL5bMepwApa0QWjKwJK8sfP5D"
-# access_token_secret = "I0Kytm6EtpaXYIg1HWtwohCZ0ZbxUPyf4Wrrw3HjqAqsr"
-
 #before any of this, you need a Twitter Developer API. The Standard API works fine for this
 #IMPORTANT: the academic API does not work with tweepy (yet?). Get the standard API and explain to Twitter, they probably won't have a problem with it
 
