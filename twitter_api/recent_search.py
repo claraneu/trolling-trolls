@@ -3,10 +3,18 @@
 import requests
 import os
 import json
+import pandas as pd
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # To set your environment variables in your terminal run the following line:
 # export 'BEARER_TOKEN'='<your_bearer_token>'
 bearer_token = os.environ.get("BEARER_TOKEN")
+
+#DELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETEDELETE#
+# bearer_token='AAAAAAAAAAAAAAAAAAAAAL9qWwEAAAAAYXjrmVLFQoHio2UGchwJLeb8g%2B0%3D9PmL4kEJ7frPJM3oqcwXeHjsgAMC1XK2YbXIDYPfXx1p07OD0x'
 
 search_url = "https://api.twitter.com/2/tweets/search/recent"
 
@@ -26,7 +34,6 @@ def bearer_oauth(r):
 
 def connect_to_endpoint(url, params):
     response = requests.get(url, auth=bearer_oauth, params=params)
-    print(response.status_code)
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.json()
@@ -39,3 +46,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
