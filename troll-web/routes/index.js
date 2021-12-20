@@ -2,6 +2,30 @@
 const express = require('express')
 const router = express.Router()
 
+
+
+//The landing page
+router.get("/landing", (req, res) =>{
+  res.render('landing', { text: "Nothing to see here" })
+})
+
+//Testing implementing style
+router.get("/style", (req, res) =>{
+  res.render('test-Styles', { text: "Nothing to see here" })
+})
+
+//Starting the education page
+router.get("/education", (req, res) =>{
+  res.render('education', { text: "Nothing to see here" })
+})
+
+// //Starting the log-in page
+// router.get("/log-in", (req, res) =>{
+//   res.render('log-in', { text: "Nothing to see here" })
+// })
+
+
+
 //Front page, nothing interesting here
 router.get('/', (req, res) => {
   res.render('index', { text: 'This is the dynamic data. Open index.js from the routes directory to see.' })
@@ -24,24 +48,6 @@ router.get("/tweets", (req, res) =>{
     })
   })
 })
-
-//The landing page
-router.get("/landing", (req, res) =>{
-  res.render('landing', { text: "Nothing to see here" })
-})
-
-//Testing implementing style
-router.get("/style", (req, res) =>{
-  res.render('test-Styles', { text: "Nothing to see here" })
-})
-
-//Starting the education page
-router.get("/education", (req, res) =>{
-  res.render('education', { text: "Nothing to see here" })
-})
-
-
-
 
 
 //This handles the result. The search result. 
