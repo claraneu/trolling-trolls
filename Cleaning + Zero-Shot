@@ -1,0 +1,14 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from tqdm import tqdm
+from transformers import pipeline
+
+def import_dataset(name_of_dataframe,name_of_dataset):
+    name_of_dataframe = pd.read_csv('name_of_dataset', delimiter=',',encoding='utf-8', header = 0)
+    print(name_of_dataframe.head())
+
+#def data_processing(name_of_dataframe):
+import_dataset
