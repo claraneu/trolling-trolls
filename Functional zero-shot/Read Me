@@ -1,0 +1,8 @@
+Read Me
+
+The current zero-shot version has been updated since I used it last time meaning that there have been made some changes to the way it works. One of the notable ones is that it now likes to skip some rows of the CSV, as far as I know it always does it with the same rows, it might be that the algorithm is not sure what label to give it (because its certainty for these is <50%) or it's just being weird? (I'll be sure to reach out to Monique some time soon to see if she can help. 
+
+Anyway, what's new here is that I have seamlessly integrated Clara's preprocessing with my part. This means that the user (at the current moment) places their CSV in the same folder as the algorithm and then follows the prompts provided when the program is executed in order to process the data. The requested input is stuff like name of CSV file, name of content containing tweets and so forth, this was essentially done with the thought in mind that the user is not responsible for the hard coding when they're using the program, and also that it would probably not be too difficult to prompt the computer for these things. <-- what I mean by this is that it is definitely possible to upload the CSV to our website and then the website can, on its own, figure out what the name of the CSV is.
+
+Hope you all had a merry Christmas / Happy holiday!
+- Mads
