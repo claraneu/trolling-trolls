@@ -1,7 +1,9 @@
 // Full Documentation - https://docs.turbo360.co
 const express = require('express')
 const router = express.Router()
-
+//Working in progress concerning data handeling. When being used on the backend
+//import test from "../public/js/vis.js"
+//const test = require("../public/js/vis")
 
 
 //The landing page
@@ -59,18 +61,31 @@ router.post("/result", (req, res) =>{
     Message: regex 
   }
 
+
+
+
+
+
   search.find(filter)
   .then(tweets => {
-    res.json({
-      data:tweets
+    let tweet0 = tweets
+    tweet0 = JSON.stringify(tweet0)
+
+    const data=({
+      dataKey: tweet0
     })
-    console.log(tweets)
+
+// !!!! I AM 100 PERCENT SURE THIS IS THE WRONG WAY TO DO that!!!
+    res.render("index", data)
+
   })
+  
   .catch(err => {
     res.json({
       data: "fail", 
       message: "nothing"
     })
+    console.log(err)
   })
 })
 

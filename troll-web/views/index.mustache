@@ -12,5 +12,23 @@
 
 <body>
   <h2> Hi, I am dooing the thing <h2> 
+  <!-- The following code test the implemenation of data.  -->
+  {{user}}  {{RT}} {{Message}}
+  <div id="dashi">
+    
+  </div>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/vis.js"></script>
+  <script type="text/javascript" async="false">
+    let tweets = "{{dataKey}}"
+    //Note this regular expression replaces &quot with quotation marks, the g means globally (all instead of just the first)
+    tweets = JSON.parse(tweets.replace(/&quot;/g,'"'))
+    analyze(tweets)
+  </script>
+
 </body>
 </html>
