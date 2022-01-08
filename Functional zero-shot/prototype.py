@@ -90,7 +90,7 @@ def clean_text(text):
     text = re.sub(r'https?:\/\/\S+', '', text) #Remove the hyperlink
     text = re.sub(r'\'[\s]+', '', text) #Remove apostrophe
     text = re.sub(r'\...+', '', text) #Remove dots
-    text = re.sub(r'\\x..', '', text) #Remove emojis
+    text = re.sub(r'\\x[a-z|A-Z|0-9]+', '', text) #Remove emojis
     text = re.sub(r'\!', '', text) #Remove exclamation  marks
 
     return text
