@@ -23,6 +23,9 @@ consumer_secret = os.environ.get('API_KEY_SECRET')
 access_token = os.environ.get('ACCESS_TOKEN')
 access_token_secret = os.environ.get('ACCESS_TOKEN_SECRET')
 
+#create the "until" search variable. Will be set to "today" if not specified in search function later
+search_date=None; 
+
 #before any of this, you need a Twitter Developer API. The Standard API works fine for this
 #IMPORTANT: the academic API does not work with tweepy (yet?). Get the standard API and explain to Twitter, they probably won't have a problem with it
 
@@ -35,7 +38,11 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
 
     #initialize Tweepy API
     api = tweepy.API(auth)
-    
+
+    #sets the search date to today's date by default is nothing was input
+    if search_date == None:
+     search_date = date.today()
+
     #make the name of the spreadsheet we will write to
     #it will be named whatever we search
     """  fname = '_'.join(re.findall(r"#(\w+)", hashtag_phrase))"""
@@ -52,7 +59,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
         #for each tweet matching our hashtags, write relevant info to the spreadsheet
         #max we can pull is 500,000 tweets a month; I have it set to 100
         for tweet in tweepy.Cursor(api.search_tweets, q=hashtag_phrase+' -filter:retweets', \
-                                   lang="en", tweet_mode='extended').items(10):
+                                   lang="en", tweet_mode='extended', until=search_date).items(10):
             w.writerow([tweet.created_at,tweet.user.location, tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
 
     
