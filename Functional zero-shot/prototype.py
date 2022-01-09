@@ -23,8 +23,7 @@ consumer_secret = os.environ.get('API_KEY_SECRET')
 access_token = os.environ.get('ACCESS_TOKEN')
 access_token_secret = os.environ.get('ACCESS_TOKEN_SECRET')
 
-#create the "until" search variable. Will be set to "today" if not specified in search function later
-search_date=None; 
+
 
 #before any of this, you need a Twitter Developer API. The Standard API works fine for this
 #IMPORTANT: the academic API does not work with tweepy (yet?). Get the standard API and explain to Twitter, they probably won't have a problem with it
@@ -39,7 +38,8 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
     #initialize Tweepy API
     api = tweepy.API(auth)
 
-    #sets the search date to today's date by default is nothing was input
+    #sets search date. needs to be fixed, in current state useless
+    search_date = None
     if search_date == None:
      search_date = date.today()
 
