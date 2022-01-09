@@ -23,7 +23,7 @@ access_token_secret = os.environ.get('ACCESS_TOKEN_SECRET')
 #IMPORTANT: the academic API does not work with tweepy (yet?). Get the standard API and explain to Twitter, they probably won't have a problem with it
 
 #define our function: what are we doing, what arguments do we need to do it?
-def search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase):
+def search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase, map):
     
     #create an authorization for accessing Twitter (aka tell the program we have permission to do what we're doing)
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -57,13 +57,10 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
             if hasattr(tweet, 'user') and hasattr(tweet.user, 'screen_name') and hasattr(tweet.user, 'location'):
                 if tweet.user.location:
                     location_data.append((tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.location))
-        return location_data
     
-
-def put_markers(map, data):
     geo_locator = Nominatim(user_agent="trolling_trolls")
 
-    for (name, location) in data:
+    for (name, location) in location_data:
         if location:
             try:
                 location = geo_locator.geocode(location)
@@ -72,12 +69,13 @@ def put_markers(map, data):
             if location:
                 folium.Marker([location.latitude, location.longitude], popup=name).add_to(map)
 
+    map.save("index.html")
+
 
 hashtag_phrase = input('Hashtag Phrase ') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
 
 if __name__ == "__main__":
-    search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase)
+    
     map = folium.Map(location=[0, 0], zoom_start=2)
-    location_data = search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase)
-    put_markers(map, location_data)
-    map.save("index.html")
+    search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase, map)
+    
