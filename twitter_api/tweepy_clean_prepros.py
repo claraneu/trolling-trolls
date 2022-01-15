@@ -72,6 +72,15 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
 
     map.save("index.html")'''
 
+def clean_text(text):
+    text = re.sub(r'@[A-Za-z0-9]+', '', text) #Removed mentions
+    text = re.sub(r'#', '', text) #Removed hashtags
+    text = re.sub(r'https?:\/\/\S+', '', text) #Remove the hyperlink
+    text = re.sub(r'\'[\s]+', '', text) #Remove apostrophe
+    text = re.sub(r'\...+', '', text) #Remove dots
+    text = re.sub(r'\\x[a-z|A-Z|0-9]+', '', text) #Remove emojis
+    text = re.sub(r'\!', '', text) #Remove exclamation  marks
+
 
 
 hashtag_phrase = input('Hashtag Phrase ') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
