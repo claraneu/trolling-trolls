@@ -47,18 +47,18 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
         w = csv.writer(file)
 
         #write header row to spreadsheet
-        w.writerow(['timestamp', 'location', 'coordinates', 'tweet', 'username', 'all_hashtags', 'followers_count'])
+        w.writerow(['timestamp', 'location', 'tweet', 'username', 'all_hashtags', 'followers_count'])
 
         #for each tweet matching our hashtags, write relevant info to the spreadsheet
         #max we can pull is 500,000 tweets a month; I have it set to 100
         for tweet in tweepy.Cursor(api.search_tweets, q=hashtag_phrase+' -filter:retweets', \
                                    lang="en", tweet_mode='extended', until=search_date).items(20):
-            w.writerow([tweet.created_at,tweet.user.location, tweet.coordinates, tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
+            w.writerow([tweet.created_at,tweet.user.location, tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
             if hasattr(tweet, 'user') and hasattr(tweet.user, 'screen_name') and hasattr(tweet.user, 'location'):
                 if tweet.user.location:
                     location_data.append((tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.location))
     
-    geo_locator = Nominatim(user_agent="trolling_trolls")
+    '''geo_locator = Nominatim(user_agent="trolling_trolls")
 
     for (name, location) in location_data:
         if location:
@@ -69,7 +69,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
             if location:
                 folium.Marker([location.latitude, location.longitude], popup=name).add_to(map)
 
-    map.save("index.html")
+    map.save("index.html")'''
 
 
 hashtag_phrase = input('Hashtag Phrase ') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
