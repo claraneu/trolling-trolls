@@ -24,10 +24,10 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/vis.js"></script>
   <script type="text/javascript" async="false">
-    let tweets = "{{dataKey}}"
+    let dataFromBack = "{{dataKey}}"
     //Note this regular expression replaces &quot with quotation marks, the g means globally (all instead of just the first)
-    tweets = JSON.parse(tweets.replace(/&quot;/g,'"'))
-    analyze(tweets)
+    dataFromBack = JSON.parse(dataFromBack.replace(/&quot;/g,'"'))
+    console.log(dataFromBack)
   </script>
 
 </body>

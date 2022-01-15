@@ -17,10 +17,10 @@ function analyze(data){
             numOfUnknown = numOfUnknown +1
         }else {numOfKnown = numOfKnown +1}    
     }
-    console.log(numOfUnknown, numOfKnown)
+    console.log(racist, sexist, hatespeech, neutral, negative, positive)
 
   createCanvas()
-  createBarChart(numOfUnknown, numOfKnown)
+  createBarChart(racist, sexist, hatespeech, neutral, negative, positive)
 }
 
 function createCanvas(){
@@ -30,9 +30,9 @@ function createCanvas(){
 
 }
 
-function createBarChart(barOne, barTwo){
+function createBarChart(racist, sexist, hatespeech, neutral, negative, positive){
 
-      const labels = ["barOne", "barTwo"];
+      const labels = ['racist', 'sexist', 'hatespeech', 'neutral', 'negative', 'positive'];
       const data = {
         labels: labels,
         datasets: [{
