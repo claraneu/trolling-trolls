@@ -91,6 +91,29 @@ header .rightSide{
     align-items: center;
 }
 
+.horizontal-content{
+    display:flex; 
+    flex-direction: row; 
+    align-items:baseline;
+    justify-content:space-evenly
+
+}
+
+main .leftSide{
+    display:flex; 
+    align-items: center;
+    
+}
+
+
+
+main .rightSide{
+    display:flex; 
+    justify-content: right; 
+
+}
+
+
 .notPicture{
     display:flex; 
     flex-direction: row; 

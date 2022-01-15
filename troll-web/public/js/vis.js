@@ -10,14 +10,18 @@
 
 
 function analyze(data){
-    let numOfUnknown = Number(0)
-    let numOfKnown = Number(0)
-    for (let i = 0; i < data.length; i ++){
-        if (data[i]["user"] == "unknown"){
-            numOfUnknown = numOfUnknown +1
-        }else {numOfKnown = numOfKnown +1}    
-    }
-    console.log(racist, sexist, hatespeech, neutral, negative, positive)
+  data = data["hatespeechPred"]
+  console.log(data)
+    // let numOfUnknown = Number(0)
+    // let numOfKnown = Number(0)
+    // for (let i = 0; i < data.length; i ++){
+    //     if (data[i]["user"] == "unknown"){
+    //         numOfUnknown = numOfUnknown +1
+    //     }else {numOfKnown = numOfKnown +1}    
+    // }
+    let racist, sexist, hatespeech, neutral, negative, positive 
+    //var arr = [1,2,3]
+    [racist, sexist, hatespeech, neutral, negative, positive ] = data
 
   createCanvas()
   createBarChart(racist, sexist, hatespeech, neutral, negative, positive)
@@ -36,7 +40,7 @@ function createBarChart(racist, sexist, hatespeech, neutral, negative, positive)
       const data = {
         labels: labels,
         datasets: [{
-          label: 'My First Dataset',
+          label: 'Is this term loaded?',
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)'
@@ -47,7 +51,7 @@ function createBarChart(racist, sexist, hatespeech, neutral, negative, positive)
             'rgb(255, 159, 64)'
           ],
           borderWidth: 1,
-          data: [barOne, barTwo]
+          data: [racist, sexist, hatespeech, neutral, negative, positive]
         }]
       };
 

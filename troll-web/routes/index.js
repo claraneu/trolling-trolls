@@ -7,8 +7,8 @@ const router = express.Router()
 const spawn = require('child_process').spawn;
 
 //The landing page
-router.get("/landing", (req, res) =>{
-  res.render('landing', { text: "Nothing to see here" })
+router.get("/search", (req, res) =>{
+  res.render('search', { text: "Nothing to see here" })
 })
 
 //Testing implementing style
