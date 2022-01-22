@@ -145,7 +145,7 @@ dmypy.json
 cython_debug/
 
 #because we generate tons of CSVs all the time
-.csv
+**/*.csv
 
 # PyCharm
 #  JetBrains specific template is maintainted in a separate JetBrains.gitignore that can
