@@ -1,54 +1,65 @@
 
-
-// function test(){
-//     console.log("hi, vis can be called from the index route")
-// } 
-// function htmlCalling(data){
-
-//     console.log(data)
-// }
-
-
 function analyze(data){
   data = data["hatespeechPred"]
   console.log(data)
-    // let numOfUnknown = Number(0)
-    // let numOfKnown = Number(0)
-    // for (let i = 0; i < data.length; i ++){
-    //     if (data[i]["user"] == "unknown"){
-    //         numOfUnknown = numOfUnknown +1
-    //     }else {numOfKnown = numOfKnown +1}    
-    // }
     let racist, sexist, hatespeech, neutral, negative, positive 
-    //var arr = [1,2,3]
     [racist, sexist, hatespeech, neutral, negative, positive ] = data
 
   createCanvas()
   createBarChart(racist, sexist, hatespeech, neutral, negative, positive)
+
 }
 
 function createCanvas(){
     var childTag = document.createElement("canvas")
-    var parentTag = document.getElementById("dashi")
+    childTag.setAttribute("id", "chart1")
+    //childTag.setAttribute("width", "200")
+    //childTag.setAttribute("height", "200")
+
+    var parentTag = document.getElementById("top-left")
+    parentTag.appendChild(childTag)
+
+
+    var childTag = document.createElement("canvas")
+    childTag.setAttribute("id", "chart2")
+    // childTag.setAttribute("width", "200")
+    // childTag.setAttribute("height", "200")
+
+    
+    var parentTag = document.getElementById("bottom-left")
     parentTag.appendChild(childTag)
 
 }
 
+
+
+
 function createBarChart(racist, sexist, hatespeech, neutral, negative, positive){
 
-      const labels = ['racist', 'sexist', 'hatespeech', 'neutral', 'negative', 'positive'];
+      const labels = ['Racist', 'Sexist', 'Hatespeech', 'Neutral', 'Negative', 'Positive'];
       const data = {
         labels: labels,
         datasets: [{
           label: 'Is this term loaded?',
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-   
+            'rgba(133, 128, 200, 0.2)',
+            'rgba(229, 33, 87, 0.2)',
+            'rgba(133, 128, 200, 0.4)',
+            'rgba(229, 33, 87, 0.4)',
+            'rgba(133, 128, 200, 0.6)',
+            'rgba(229, 33, 87, 0.6)',
+            'rgba(133, 128, 200, 0.8)',
+            'rgba(229, 33, 87, 0.8)'
           ],
           borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)'
+            'rgb(133, 128, 200)',
+            'rgb(229, 33, 87)',
+            'rgb(133, 128, 200)',
+            'rgb(229, 33, 87)',
+            'rgb(133, 128, 200)',
+            'rgb(229, 33, 87)',
+            'rgb(133, 128, 200)',
+            'rgb(229, 33, 87)'
           ],
           borderWidth: 1,
           data: [racist, sexist, hatespeech, neutral, negative, positive]
@@ -56,19 +67,29 @@ function createBarChart(racist, sexist, hatespeech, neutral, negative, positive)
       };
 
       const config = {
-        type: 'bar',
+        type: 'pie',
         data: data,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false
+              }
           }
-        },
+       },
       };
+
+
+     
+
+
       const myChart = new Chart(
-        document.getElementsByTagName('canvas'),
+        document.getElementById('chart1'),
         config)
+
+      const myChart2 = new Chart(
+        document.getElementById('chart2'),
+        config)
+
 }
 
 

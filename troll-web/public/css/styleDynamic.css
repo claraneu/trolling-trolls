@@ -80,8 +80,8 @@ header .rightSide{
 
 
 .main {
-    margin-top: 5rem;
-    margin: 5rem 0 0 2rem;
+
+    margin: 2rem 2rem 2rem 2rem;
     display:flex;
 }
 /* This one is used on the carousel page */
@@ -175,6 +175,77 @@ h2 {
     left: 608px;
     top: 593px; */
 }
+
+
+
+
+.gridi {
+
+    display: grid;
+    grid-template-columns: 20% 20% 40% ;
+    grid-template-rows:: 40% 40% ; 
+    column-gap: auto ;
+    row-gap: auto ;
+    justify-items: center;
+
+}
+
+
+/* .gridi > * {
+    min-width: 80%;
+    min-height: 80%;
+
+    max-width: 80%;
+    max-height: 80%;
+
+} */
+
+#top-left {
+
+    min-width: auto;
+    background: rgba(221, 54, 54, 0.8)
+    grid-column-start: 1 ;
+    grid-column-end: 1 ;
+    grid-row-start: 1 ;
+    grid-row-end: 1 ;
+    justify-self: center;
+}
+
+#bottom-left {
+  
+    background: rgba(255, 255, 255, 0.8)
+    grid-column-start: 1 ;
+    grid-column-end: 1 ;
+    grid-row-start:  2;
+    grid-row-end: 2 ;
+    justi
+}
+
+
+#top-middle {
+    color: rgba(48, 15, 15, 0.8)
+    grid-column-start: 2 ;
+    grid-column-end: 2 ;
+    grid-row-start: 1 ;
+    grid-row-end: 1 ;
+}
+
+#bottom-middle {
+    background-color: rgba(255, 255, 255, 0.8)
+    grid-column-start: 2 ;
+    grid-column-end: 2 ;
+    grid-row-start: 2 ;
+    grid-row-end: 2 ;
+}
+
+#right {
+    background-color: rgba(255, 255, 255, 0.8)
+    grid-column-start: 3 ;
+    grid-column-end: 3 ;
+    grid-row-start: 1 ;
+    grid-row-end: 2 ;
+}
+
 
 /* The following styles are used in dark mode */
 @media (prefers-color-scheme: dark) {

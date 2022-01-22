@@ -21,16 +21,9 @@ router.get("/education", (req, res) =>{
   res.render('education', { text: "Nothing to see here" })
 })
 
-// //Starting the log-in page
-// router.get("/log-in", (req, res) =>{
-//   res.render('log-in', { text: "Nothing to see here" })
-// })
-
-
-
 //Front page, nothing interesting here
 router.get('/', (req, res) => {
-  res.render('index', { text: 'This is the dynamic data. Open index.js from the routes directory to see.' })
+  res.render('test-Styles')
 })
 
 //Tweet scheme and link to all tweets. 
@@ -92,12 +85,34 @@ router.post("/result", (req, res) =>{
   //const pathToPyScript = "C:\\Users\\n2o_j\\Documents\\Projects\\Programing\\Python\\Projects\\Functional zero-shot\\Scripts\\python.exe"
   //-m venv C:\\Users\\n2o_j\\Documents\\Projects\\Programing\\Python\\Projects\\Functional^ zero-shot\\Scripts\\python.exe && python
 
-  const pythonProcess = spawn("C:\\Users\\n2o_j\\Documents\\Projects\\Programing\\Python\\Projects\\Functional-zero-shot\\Scripts\\python", ["prototype.py", searchWord])
 
+    //For debugging reasons, add fake data!(remember), -delete after debugging. 
+  hatespeechValues= [20, 300, 108, 210, 76, 100]
+
+  var dataCompact = {
+    hatespeechPred: hatespeechValues
+  }
+ 
+  dataCompact = JSON.stringify(dataCompact)
+
+  const dataSendBack = {
+    dataKey: dataCompact
+  }
+  res.render("index", dataSendBack)
+
+
+
+
+
+
+
+
+  const pythonProcess = spawn("C:\\Users\\n2o_j\\Documents\\Projects\\Programing\\Python\\Projects\\Functional-zero-shot\\Scripts\\python", ["prototype.py", searchWord])
 
   var hatespeechValues = []
   pythonProcess.stdout.on("data", (dataFromPy) => {
-    //console.log('Pipe data from python script ...');
+  
+    
     dataFromPy = dataFromPy.toString()
     
     console.log(dataFromPy)
@@ -124,31 +139,16 @@ router.post("/result", (req, res) =>{
     const dataSendBack = {
       dataKey: dataCompact
     }
-  
     res.render("index", dataSendBack)
-
-
-
   })
 
   pythonProcess.on('error', (err) => {
+    //Needs to sendback error statment! 
     console.log("Failed to reach python. Error: " + err);
   })
   pythonProcess.on('close', (code) => {
     console.log("closed with code " + code);
   })
-
-
-
-  //     const data=({
-  //       dataKey: tweet0
-  //     })
-  
-  // // !!!! I AM 100 PERCENT SURE THIS IS THE WRONG WAY TO DO that!!!
-  //     res.render("index", data)
-  
-  //   })
-
 
   })
 

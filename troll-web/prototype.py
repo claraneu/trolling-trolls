@@ -64,7 +64,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
         #for each tweet matching our hashtags, write relevant info to the spreadsheet
         #max we can pull is 500,000 tweets a month; I have it set to 100
         for tweet in tweepy.Cursor(api.search_tweets, q=hashtag_phrase+' -filter:retweets', \
-                                   lang="en", tweet_mode='extended').items(25):
+                                   lang="en", tweet_mode='extended').items(2):
             w.writerow([tweet.created_at,tweet.user.location, tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
 
     return
