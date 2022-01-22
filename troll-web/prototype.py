@@ -27,7 +27,7 @@ access_token_secret = os.environ.get('ACCESS_TOKEN_SECRET')
 
 
 
-#hashtag_phrase = input('Hashtag Phrase ') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
+#hashtag_phrase = input('Hashtag Phrase') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
 
 
 
@@ -64,7 +64,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
         #for each tweet matching our hashtags, write relevant info to the spreadsheet
         #max we can pull is 500,000 tweets a month; I have it set to 100
         for tweet in tweepy.Cursor(api.search_tweets, q=hashtag_phrase+' -filter:retweets', \
-                                   lang="en", tweet_mode='extended').items(2):
+                                   lang="en", tweet_mode='extended').items(21):
             w.writerow([tweet.created_at,tweet.user.location, tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
 
     return
@@ -82,11 +82,8 @@ def predict_class(hashtag_phrase):
         pd.set_option('display.max_colwidth', None)
         dataframe.rename(columns={tweet_column:'tweet'}) #renaming the tweet column to 'tweet'
         
-        
-
     except FileNotFoundError:
         print('There was an error finding the CSV you requested, please check the following:','\n', '1. The CSV file is in the correct directory', '\n', '2. You gave the correct name of the file, following the syntax: yourfilename.csv')
-
 
     df_copy = dataframe.copy() #creating a copy of the dataframe
     df_copy['tweet'] = df_copy['tweet'].str.lower() #making everything lower case
@@ -106,44 +103,79 @@ def predict_class(hashtag_phrase):
     except RuntimeError:
         print("A runtime error occurred, check if tensorflow and pytorch are correctly installed, need to be version >= 2")
 
-    df_original  = df_copy	
+    df_original = df_copy	
     rows = df_original['tweet'].count()
     df_name = df_original.head(rows)
 
-
     candidate_labels = []
     candidate_results = []
+    #racist_list = []
+    #sexist_list = []
+    #hatespeech_list = []
+    #neutral_list = []
+    #negative_list = []
+    #positive_list = []
+    unsure_list = []
+    total_list = []
+
+    labeled_tweets = pd.DataFrame(columns= ['Racist','Sexist','Hatespeech','Neutral','Negative','Positive'])
+    
 
     candidate_labels = ['racist', 'sexist', 'hatespeech', 'neutral', 'negative', 'positive']
     candidate_results = [0, 0, 0, 0, 0, 0]
 
     for sent in tqdm(df_name['tweet'].values):
             
-        res = classifier(sent, candidate_labels, multi_class = False) #change multiclass to True for different results
+        res = classifier(sent, candidate_labels, multi_label = False) #change multiclass to True for different results
 
-        if res['labels'][0] == 'racist' and res['scores'][0] > 0.5:
+        if res['labels'][0] == 'racist' and res['scores'][0] >= 0.5:
             candidate_results[0] = candidate_results[0] + 1
-        if res['labels'][0] == 'sexist' and res['scores'][0] > 0.5:
+            #racist_list.append(sent)
+            total_list.append('Racist')
+        elif res['labels'][0] == 'sexist' and res['scores'][0] >= 0.5:
             candidate_results[1] = candidate_results[1] + 1
-        if res['labels'][0] == 'hatespeech' and res['scores'][0] > 0.5:
+            #sexist_list.append(sent)
+            total_list.append('Sexist')
+        elif res['labels'][0] == 'hatespeech' and res['scores'][0] >= 0.5:
             candidate_results[2] = candidate_results[2] + 1
-        if res['labels'][0] == 'neutral' and res['scores'][0] > 0.5:
+            #hatespeech_list.append(sent)
+            total_list.append('Hatespeech')
+        elif res['labels'][0] == 'neutral' and res['scores'][0] >= 0.5:
             candidate_results[3] = candidate_results[3] + 1
-        if res['labels'][0] == 'negative' and res['scores'][0] > 0.5:
+            #neutral_list.append(sent)
+            total_list.append('Neutral')
+        elif res['labels'][0] == 'negative' and res['scores'][0] >= 0.5:
             candidate_results[4] = candidate_results[4] + 1
-        if res['labels'][0] == 'positive' and res['scores'][0] > 0.5:
+            #negative_list.append(sent)
+            total_list.append('Negative')
+        elif res['labels'][0] == 'positive' and res['scores'][0] >= 0.5:
             candidate_results[5] = candidate_results[5] + 1
+            #positive_list.append(sent)
+            total_list.append('Posititve')
+        else:
+            total_list.append('Unsure')
+            unsure_list.append(sent)
 
-    """     if res['scores'][0] > 0.5: #the code below this can be removed if you do not wish to have all of the results printed (might be useful for when the program is actually implemented)
+        """ elif res['labels'][0] == 'unsure' and res['scores'][0] < 0.5:
+            #print(sent,'\n',res['labels'],'\n',res['scores'])
+            candidate_results[6] = candidate_results[6] + 1
+            unsure_list.append(sent)
+            total_list.append('Unsure') """
+
+
+        if res['scores'][0] > 0.5 or res['scores'][0] < 0.5: #the code below this can be removed if you do not wish to have all of the results printed (might be useful for when the program is actually implemented)
             print(sent)
             print(res['labels'])
             print(res['scores'])
             print('\n')
-    """
+   
+    column_values = pd.Series(total_list)
+    df_copy.insert(loc=0, column='Data Labels', value=column_values)
     data = {'labels': candidate_labels, 'values': candidate_results}
     df_frequency = pd.DataFrame(data, columns=['labels', 'values'])
     print(df_frequency.head(len(candidate_labels)))
     df_frequency.to_csv('testForMiK.csv')
+    print(df_copy)
 
     #print(sns.barplot(data = df_frequency, x = 'labels', y = 'values'))
     return
@@ -159,17 +191,13 @@ def clean_text(text):
     text = re.sub(r'^b', '', text) #Remove B at start of tweet; second line because I'm too lazy to figure it out rn
     text = re.sub(r'\!', '', text) #Remove exclamation  marks
 
-
     return text
-
-
-
 
 def run_all():
 
-    hashtag_phrase = sys.argv[1]
+    hashtag_phrase = 'puppies'
 
-    search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase)
+    #search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase)
     
     predict_class(hashtag_phrase)
 
