@@ -12,6 +12,8 @@ import re
 import os
 import sys
 
+from collections import Counter
+from itertools import chain
 from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import BartTokenizer, BartModel
@@ -26,46 +28,53 @@ access_token = os.environ.get('ACCESS_TOKEN')
 access_token_secret = os.environ.get('ACCESS_TOKEN_SECRET')
 
 
-
-#hashtag_phrase = input('Hashtag Phrase ') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
-
+# hashtag_phrase = input('Hashtag Phrase ') #you'll enter your search terms in the form "#xyz" ; use logical operators AND/OR
 
 
-#before any of this, you need a Twitter Developer API. The Standard API works fine for this
-#IMPORTANT: the academic API does not work with tweepy (yet?). Get the standard API and explain to Twitter, they probably won't have a problem with it
+# before any of this, you need a Twitter Developer API. The Standard API works fine for this
+# IMPORTANT: the academic API does not work with tweepy (yet?). Get the standard API and explain to Twitter, they probably won't have a problem with it
 
 
-
-
-
-#define our function: what are we doing, what arguments do we need to do it?
+# define our function: what are we doing, what arguments do we need to do it?
 def search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase):
-    
-    #create an authorization for accessing Twitter (aka tell the program we have permission to do what we're doing)
+
+    # create an authorization for accessing Twitter (aka tell the program we have permission to do what we're doing)
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
 
-    #initialize Tweepy API
+    # initialize Tweepy API
     api = tweepy.API(auth)
-    
-    #make the name of the spreadsheet we will write to
-    #it will be named whatever we search
+    hashtags = []
+
+    # make the name of the spreadsheet we will write to
+    # it will be named whatever we search
     """  fname = '_'.join(re.findall(r"#(\w+)", hashtag_phrase))"""
 
-    #open the spreadsheet we will write to
+    # open the spreadsheet we will write to
     """ with open('%s.csv' % (fname), 'w', encoding='utf-8') as file: """
     with open(hashtag_phrase + '.csv', 'w', encoding='utf-8') as file:
 
         w = csv.writer(file)
 
-        #write header row to spreadsheet
-        w.writerow(['timestamp', 'location', 'tweet', 'username', 'all_hashtags', 'followers_count'])
+        # write header row to spreadsheet
+        w.writerow(['timestamp', 'location', 'tweet', 'username',
+                   'all_hashtags', 'followers_count'])
 
-        #for each tweet matching our hashtags, write relevant info to the spreadsheet
-        #max we can pull is 500,000 tweets a month; I have it set to 100
-        for tweet in tweepy.Cursor(api.search_tweets, q=hashtag_phrase+' -filter:retweets', \
+        # for each tweet matching our hashtags, write relevant info to the spreadsheet
+        # max we can pull is 500,000 tweets a month; I have it set to 100
+        for tweet in tweepy.Cursor(api.search_tweets, q=hashtag_phrase+' -filter:retweets',
                                    lang="en", tweet_mode='extended').items(10):
-            w.writerow([tweet.created_at,tweet.user.location, tweet.full_text.replace('\n',' ').encode('utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
+            w.writerow([tweet.created_at, tweet.user.location, tweet.full_text.replace('\n', ' ').encode(
+                'utf-8'), tweet.user.screen_name.encode('utf-8'), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count])
+
+            # checking the hashtag texts for each tweets; if not empty, add to list 'hashtags'
+            if [e['text'] for e in tweet._json['entities']['hashtags']] != []:
+                hashtags.append([e['text']
+                                for e in tweet._json['entities']['hashtags']])
+
+    # flattening 'hashtags' (because they're nested lists) and creating a dictionary with their counts
+    hashplots = dict(Counter(chain.from_iterable(hashtags)))
+    print('hashplots:', hashplots)
 
     return
 
@@ -78,48 +87,55 @@ def predict_class(hashtag_phrase):
         #tweet_column = input('Please input the name of the column containing the tweets: ')
         #tweet_column_with_quotes = "'" + tweet_column + "'"
 
-        dataframe = pd.read_csv(user_csv, delimiter=',',encoding='utf-8', header = 0)
+        dataframe = pd.read_csv(user_csv, delimiter=',',
+                                encoding='utf-8', header=0)
         pd.set_option('display.max_colwidth', None)
-        dataframe.rename(columns={tweet_column:'tweet'}) #renaming the tweet column to 'tweet'
-        
-        
+        # renaming the tweet column to 'tweet'
+        dataframe.rename(columns={tweet_column: 'tweet'})
 
     except FileNotFoundError:
-        print('There was an error finding the CSV you requested, please check the following:','\n', '1. The CSV file is in the correct directory', '\n', '2. You gave the correct name of the file, following the syntax: yourfilename.csv')
+        print('There was an error finding the CSV you requested, please check the following:', '\n',
+              '1. The CSV file is in the correct directory', '\n', '2. You gave the correct name of the file, following the syntax: yourfilename.csv')
 
-
-    df_copy = dataframe.copy() #creating a copy of the dataframe
-    df_copy['tweet'] = df_copy['tweet'].str.lower() #making everything lower case
-    df_copy.drop_duplicates(subset='tweet', keep='first', inplace=True, ignore_index=False) #removing duplicates
-    df_copy[~df_copy.tweet.str.startswith('rt')] #removing retweets
-    df_copy['tweet'] = df_copy['tweet'].apply(lambda k: html.unescape(str(k))) #removing unnecessary characters
+    df_copy = dataframe.copy()  # creating a copy of the dataframe
+    # making everything lower case
+    df_copy['tweet'] = df_copy['tweet'].str.lower()
+    df_copy.drop_duplicates(subset='tweet', keep='first',
+                            inplace=True, ignore_index=False)  # removing duplicates
+    df_copy[~df_copy.tweet.str.startswith('rt')]  # removing retweets
+    df_copy['tweet'] = df_copy['tweet'].apply(
+        lambda k: html.unescape(str(k)))  # removing unnecessary characters
 
     df_copy['tweet'] = df_copy['tweet'].apply(clean_text)
 
     #df_copy['tweet'] = df_copy['tweet'].apply(clean_text)
 
     tokenizer = AutoTokenizer.from_pretrained("valhalla/distilbart-mnli-12-1")
-    model = AutoModelForSequenceClassification.from_pretrained("valhalla/distilbart-mnli-12-1", device = -1)
+    model = AutoModelForSequenceClassification.from_pretrained(
+        "valhalla/distilbart-mnli-12-1", device=-1)
 
     try:
-        classifier = pipeline("zero-shot-classification", model = model, tokenizer = tokenizer, device = -1) #classifier = pipeline(task='zero-shot-classification', model=model, tokenizer=tokenizer, framework='pt')
+        # classifier = pipeline(task='zero-shot-classification', model=model, tokenizer=tokenizer, framework='pt')
+        classifier = pipeline("zero-shot-classification",
+                              model=model, tokenizer=tokenizer, device=-1)
     except RuntimeError:
         print("A runtime error occurred, check if tensorflow and pytorch are correctly installed, need to be version >= 2")
 
-    df_original  = df_copy	
+    df_original = df_copy
     rows = df_original['tweet'].count()
     df_name = df_original.head(rows)
-
 
     candidate_labels = []
     candidate_results = []
 
-    candidate_labels = ['racist', 'sexist', 'hatespeech', 'neutral', 'negative', 'positive']
+    candidate_labels = ['racist', 'sexist',
+                        'hatespeech', 'neutral', 'negative', 'positive']
     candidate_results = [0, 0, 0, 0, 0, 0]
 
     for sent in tqdm(df_name['tweet'].values):
-            
-        res = classifier(sent, candidate_labels, multi_class = False) #change multiclass to True for different results
+
+        # change multiclass to True for different results
+        res = classifier(sent, candidate_labels, multi_class=False)
 
         if res['labels'][0] == 'racist' and res['scores'][0] > 0.5:
             candidate_results[0] = candidate_results[0] + 1
@@ -146,18 +162,17 @@ def predict_class(hashtag_phrase):
     #print(sns.barplot(data = df_frequency, x = 'labels', y = 'values'))
     return
 
+
 def clean_text(text):
-    text = re.sub(r'@[A-Za-z0-9]+', '', text) #Removed mentions
-    text = re.sub(r'#', '', text) #Removed hashtags
-    text = re.sub(r'https?:\/\/\S+', '', text) #Remove the hyperlink
-    text = re.sub(r'\'[\s]+', '', text) #Remove apostrophe
-    text = re.sub(r'\...+', '', text) #Remove dots
-    text = re.sub(r'\\x[a-z|A-Z|0-9]+', '', text) #Remove emojis
-    text = re.sub(r'\!', '', text) #Remove exclamation  marks
+    text = re.sub(r'@[A-Za-z0-9]+', '', text)  # Removed mentions
+    text = re.sub(r'#', '', text)  # Removed hashtags
+    text = re.sub(r'https?:\/\/\S+', '', text)  # Remove the hyperlink
+    text = re.sub(r'\'[\s]+', '', text)  # Remove apostrophe
+    text = re.sub(r'\...+', '', text)  # Remove dots
+    text = re.sub(r'\\x[a-z|A-Z|0-9]+', '', text)  # Remove emojis
+    text = re.sub(r'\!', '', text)  # Remove exclamation  marks
 
     return text
-
-
 
 
 def run_all():
@@ -165,16 +180,14 @@ def run_all():
     #hashtag_phrase = "potus"
 
     #search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase)
-    
-    #predict_class(hashtag_phrase)
 
+    # predict_class(hashtag_phrase)
 
     #my_data = sys.argv[1]
     print("hi")
-    #print(my_data)
+    # print(my_data)
     sys.stdout.flush()
     return
-
 
 
 run_all()
