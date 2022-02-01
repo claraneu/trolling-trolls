@@ -1,4 +1,4 @@
-#%%
+# %%
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,7 +8,7 @@ from seaborn.axisgrid import jointplot
 from seaborn.distributions import kdeplot
 
 df = pd.read_csv("labeled_data2.csv")
-#df.head()
+# df.head()
 
 sns.set_style("darkgrid")
 #sns.set_context("paper", font_scale=1.2)
@@ -16,7 +16,7 @@ sns.set_style("darkgrid")
 # plt.figure(figsize=(8,8))
 
 
-#Distribution plots
+# Distribution plots
 # sns.displot(df["count"], kde=True)
 # sns.displot(df["class"], kde=True)
 # sns.displot(df["hate_speech"], kde=True)
@@ -32,7 +32,7 @@ sns.set_style("darkgrid")
 # sns.histplot(df["neither"], ax=axes[2])
 
 
-#multiples density
+# multiples density
 # fig, axes = plt.subplots(2, 2, sharey=True, figsize=(20,20))
 # fig.suptitle("Data Density per Class")
 # sns.jointplot(ax=axes[0,0], x='class', y='hate_speech', data=df, kind="kde")
@@ -43,44 +43,33 @@ sns.set_style("darkgrid")
 # axes[1,0].set_title("Neither Density")
 
 
-#KDE plots
-#sns.kdeplot(df["hate_speech"])
+# KDE plots
+# sns.kdeplot(df["hate_speech"])
 
-#pairplots
+# pairplots
 
-#sns.pairplot(df)
+# sns.pairplot(df)
 #sns.pairplot(df, hue="class", palette="Blues")
 
-#rugplot
-#print(df)
-#sns.rugplot(df["count"])
+# rugplot
+# print(df)
+# sns.rugplot(df["count"])
 
 
 # %%
 #################STYLING################
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.patches as mp
-import seaborn as sns
 
 df = pd.read_csv("labeled_data2.csv")
 
 sns.set_style("darkgrid")
-plt.figure(figsize=(8,8))
+plt.figure(figsize=(8, 8))
 
+#sns.jointplot(x="class", y="count", data=df, kind="kde")
+g = sns.countplot(x="class", data=df, )
+g.set_xticklabels(["Hatespeech", "Offensive Language", "Neither"])
 
-sns.jointplot(x="class", y="count", data=df, kind="kde")
-
-
-
-#%%
+# %%
 #################Categorical Data Plotting#################
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.patches as mp
-import seaborn as sns
 
 df = pd.read_csv("labeled_data2.csv")
 sns.set_style("darkgrid")
@@ -90,9 +79,9 @@ sns.set_style("darkgrid")
 
 fig, axes = plt.subplots(1, 3, sharey=True, figsize=(15, 10))
 fig.suptitle("Amounts of Votes in Each Class")
-sns.countplot( x='hate_speech', data=df, ax=axes[0])
+sns.countplot(x='hate_speech', data=df, ax=axes[0])
 axes[0].set_title("Hate Speech Votes")
-sns.countplot( x='offensive_language', data=df, ax=axes[1])
+sns.countplot(x='offensive_language', data=df, ax=axes[1])
 axes[1].set_title("Offensive Language Votes")
 sns.countplot(x='neither', data=df, ax=axes[2])
 axes[2].set_title("Neither Votes")
@@ -104,7 +93,6 @@ sns.set(style="dark")
 
 df = df = pd.read_csv("labeled_data2.csv")
 dfn = df[["hate_speech", "offensive_language", "neither", "class"]].copy()
-
 
 
 # mean = [2,2]
@@ -127,7 +115,8 @@ x1 = dfn["class"]
 x2 = dfn["neither"]
 
 sns.countplot(x="class", data=df)
-sns.jointplot(x1, x2, kind="kde", size=7, space=0, color="green").savefig("neither.png")
+sns.jointplot(x1, x2, kind="kde", size=7, space=0,
+              color="green").savefig("neither.png")
 
 
 # %%
