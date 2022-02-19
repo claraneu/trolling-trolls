@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6cb2e076-0b95-474d-9bc5-af7f049de99e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DK.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jesus.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lifehack.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Trump.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/USA.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/c.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dd.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pelosi.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/potus.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prototype.py" beforeDir="false" afterPath="$PROJECT_DIR$/prototype.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/styleDynamic.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/styleDynamic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/vis.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/vis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/puppies.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testForMiK.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.mustache" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="23TX7quHq2ze7gKLM8jxIS1V1YA" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Python/Projects" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="prototype" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="troll-web" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/prototype.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.prototype" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6cb2e076-0b95-474d-9bc5-af7f049de99e" name="Changes" comment="" />
+      <created>1641758888779</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1641758888779</updated>
+    </task>
+    <servers />
+  </component>
+</project>
