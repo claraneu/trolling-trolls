@@ -4,7 +4,12 @@
 
 1. Introduction
 2. Technologies
+<<<<<<< Updated upstream
 3.
+=======
+3. Setup
+4. ToDo
+>>>>>>> Stashed changes
 
 ## 1. Introduction
 
@@ -19,5 +24,39 @@ Languages
 - Python 3.8.8
 - JavaScript
 
+<<<<<<< Updated upstream
 Packages:
 
+=======
+Packages (ordered by length, as it should be):
+- matplotlib
+- seaborn
+- pandas
+- numpy
+- json
+- csv
+- re
+- os
+- sys
+- html
+- tqdm
+- tweepy
+- dotenv
+
+- Zero-Shot algorith: valhalla/distilbart-mnli-12-1
+
+
+## 3. Setup
+
+To run this project ...
+
+
+## 4. ToDo
+
+There are a lot of things to do, obviously.
+
+1. Split scripts
+2. Include search parameters (location, timeframe, etc.)
+3. Add visualizations of correlations (hatespeech per search parameter)
+4. And many more
+>>>>>>> Stashed changes
