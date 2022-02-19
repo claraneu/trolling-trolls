@@ -24,6 +24,7 @@ Languages
 - JavaScript
 
 Packages (ordered by length, as it should be):
+Python
 - matplotlib
 - seaborn
 - pandas
@@ -41,6 +42,18 @@ Packages (ordered by length, as it should be):
 - Zero-Shot algorithm: valhalla/distilbart-mnli-12-1
 
 - **Only runs with twitter API access**
+
+JavaScript:
+- bcryptjs: 2.4.3
+- chart.js: 3.7.0
+- connect-flash: 0.1.1
+- express: 4.17.1
+- express-session: 1.17.2
+- mongoose: 6.0.13
+- passport: 0.5.1
+- passport-local: 1.0.0
+- nodemon: 2.0.2
+
 
 ## 3. Setup
 
