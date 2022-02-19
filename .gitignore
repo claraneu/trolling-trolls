@@ -151,8 +151,8 @@ node_modules/
 properties.js
 
 #Other
-.csv
-.png
+*.csv
+*.png
 
 
 # PyCharm
