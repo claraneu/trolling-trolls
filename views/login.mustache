@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="Content-Language" content="en" />
+
+
+  <!-- Boostrap reference, could possilby be used in a smarter way -->
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+  
+  <!-- From Google fonts: Thanks to  Indian Type Foundry, Jonny Pinhorn -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap" rel="stylesheet">
+
+  <!-- Our own stylescheets -->
+  <link rel="stylesheet" href="/css/styleDynamic.css" type="text/css">
+
+
+  <title>Trolling Trolls</title>
+  
+
+</head>  
+
+<body>
+  <header>
+    <div class="leftSide">
+      <a href="../style">
+       <img src="/images/Group10.png" id="bubble" alt="Bubble Picture">
+      </a>
+      <a id=titleText href="../style">TrollingTrolls</a>
+    </div>
+    <div class=rightSide>
+      
+      <a id=search href="../style">Search</a>
+      <a id=educate href="../education">Educate</a>
+      <a id=about href="about">About</a>
+
+    </div>
+  </header>
+
+  <div class="main vertical-content">
+    <div class = "content1 snap-start">
+      {{>messages}}
+      <form action="login" method="POST">
+
+        <label for="email">E-mail</label>
+        <br>
+        <input type="email" name ="email" placeholder="Enter Email">
+        <br>
+
+        <label for="password">Password</label>
+        <br>
+        <input type="password" name="password" placeholder="Enter Password">
+        <br>
+
+        <button type="submit" class="button-main">Submit</button>
+      </form>
+      <br>
+      <a href="register">
+      <button type="button" class="button-main">Not a member yet...</button>  
+      </a>    
+    </div>
+  </div>
+</body>
+</html>
