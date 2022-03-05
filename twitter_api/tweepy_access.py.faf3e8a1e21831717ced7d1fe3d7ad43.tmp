@@ -33,7 +33,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
     api = tweepy.API(auth)
     
     search_date = None
-    search_date = input('Until what date do you want to search? (Required Format: YYYY-MM-DD. And remember you can search max. 7 days into the past. ')
+    search_date = input('Until what date do you want to search? (Required Format: YYYY-MM-DD. Remember, the script works like: [Today - 7 Days] -> until_date) ')
     if search_date == None:
      search_date = date.today()
 
